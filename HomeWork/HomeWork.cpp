@@ -4,29 +4,54 @@ using namespace std;
 
 class Microphone {
 private:
-    string brand;
+    string* brand;
     string type;
     string color;
     bool isWireless;
     float price;
 
 public:
+    Microphone() : Microphone("Unknown", "Dynamic", "Black", false, 0.0) {}
+
+    Microphone(string b, string t, string c, bool w, float p) {
+        brand = new string(b);
+        type = t;
+        color = c;
+        isWireless = w;
+        price = p;
+    }
+
+    Microphone(const Microphone& other) {
+        brand = new string(*other.brand);
+        type = other.type;
+        color = other.color;
+        isWireless = other.isWireless;
+        price = other.price;
+    }
+
+    ~Microphone() {
+        delete brand;
+    }
+
     // SET
-    void setBrand(string b) {brand = b; }
-    void setType(string t) {type = t; }
-    void setColor(string c) {color = c; }
-    void setIsWireless(bool w) {isWireless = w; }
-    void setPrice(float p) {price = p; }
+    void setBrand(string b) {
+        *brand = b;
+    }
+
+    void setType(string t) { type = t; }
+    void setColor(string c) { color = c; }
+    void setIsWireless(bool w) { isWireless = w; }
+    void setPrice(float p) { price = p; }
 
     // GET
-    string getBrand() const { return brand; }
+    string getBrand() const { return *brand; }
     string getType() const { return type; }
     string getColor() const { return color; }
     bool getIsWireless() const { return isWireless; }
     float getPrice() const { return price; }
 
-    void printInfo(){
-        cout << "[Microphone] Brand: " << brand << ", Type: " << type
+    void printInfo() {
+        cout << "[Microphone] Brand: " << *brand << ", Type: " << type
             << ", Color: " << color << ", Wireless: "
             << (isWireless ? "Yes" : "No") << ", Price: $" << price << "\n";
     }
@@ -122,31 +147,54 @@ public:
     }
 };
 
+
 class Book {
 private:
-    string title;
+    string* title;
     string author;
     int pages;
     string language;
     bool isOpen;
 
 public:
+    Book() : Book("Untitled", "Unknown", 0, "English", false) {}
+
+    Book(string t, string a, int p, string l, bool o) {
+        title = new string(t);
+        setAuthor(a);
+        setPages(p);
+        setLanguage(l);
+        setIsOpen(o);
+    }
+
+    Book(const Book& other) {
+        title = new string(*other.title);
+        author = other.author;
+        pages = other.pages;
+        language = other.language;
+        isOpen = other.isOpen;
+    }
+
+    ~Book() {
+        delete title;
+    }
+
     // SET
-    void setTitle(string t) {title = t; }
-    void setAuthor(string a ) {author = a; }
-    void setPages(int p) {pages = p; }
+    void setTitle(string t) { *title = t; }
+    void setAuthor(string a) { author = a; }
+    void setPages(int p) { pages = p; }
     void setLanguage(string l) { language = l; }
-    void setIsOpen(bool o) {isOpen = o; }
+    void setIsOpen(bool o) { isOpen = o; }
 
     // GET
-    string getTitle() const { return title; }
+    string getTitle() const { return *title; }
     string getAuthor() const { return author; }
     int getPages() const { return pages; }
     string getLanguage() const { return language; }
     bool getIsOpen() const { return isOpen; }
 
-    void printInfo(){
-        cout << "[Book] Title: " << title << ", Author: " << author
+    void printInfo() {
+        cout << "[Book] Title: " << *title << ", Author: " << author
             << ", Pages: " << pages << ", Language: " << language
             << ", Open: " << (isOpen ? "Yes" : "No") << "\n";
     }
@@ -183,7 +231,7 @@ int main() {
     wd.setColor("White");
     wd.setShelves(4);
     wd.setHasMirror(true);
-    wd.setHeight(180.0);
+    wd.setHeight(180);
     wd.printInfo();
 
     Book book;
